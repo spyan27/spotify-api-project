@@ -7,7 +7,7 @@ const SpotifyData = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/get-spotify-data'); // Adjust the URL to your Flask API endpoint
+        const response = await axios.get('http://localhost:5000/get-spotify-data');
         setArtistData(response.data);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -15,7 +15,7 @@ const SpotifyData = () => {
     };
 
     fetchData();
-  }, []); // Empty dependency array to run the effect only once
+  }, []);
 
   if (!artistData) {
     return <p>Loading...</p>;
