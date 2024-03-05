@@ -43,6 +43,7 @@ def search_for_artist(token, artist_name):
 
 def get_songs_by_artists(token, artist_id):
     url = f"https://api.spotify.com/v1/artists/{artist_id}/top-tracks?country=US"
+    print(url)
     headers = get_auth_header(token)
     result = get(url, headers=headers)
     json_result = json.loads(result.content)["tracks"]
@@ -51,9 +52,14 @@ def get_songs_by_artists(token, artist_id):
 token = get_token()
 
 result = search_for_artist(token, "ACDC")
+print(result)
 artist_id = result["id"]
 songs = get_songs_by_artists(token, artist_id)
 #print(songs)
 
 for idx, song in enumerate(songs):
     print(f"{idx + 1}. {song['name']}")
+    
+print()
+followers = result["followers"]["total"]
+print(followers)
