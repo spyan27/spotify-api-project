@@ -1,14 +1,12 @@
-import logo from './logo.svg';
-import './App.css';
-import 'bootstrap/dis/css/bootstrap.min.css';
-import { Container, InputGroup, FormControl, } from 'react-bootstrap';
+import React from 'react';
+import SpotifyData from './SpotifyData';
 
 function App() {
   return (
-    <div className="App">
-
+    <div>
+      <h1>Your Spotify React App</h1>
+      <SpotifyData />
     </div>
   );
 }
-
 export default App;
