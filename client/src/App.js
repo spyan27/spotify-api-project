@@ -81,21 +81,21 @@ function App(){
         </InputGroup>
       </Container>
       <Container>
-        <Row className="mx-2 row row-cols-4">
+        <Row className="mx-2 row row-cols-5">
           {tracks.map( (track, i) => {
             console.log(track);
             return (
               <Card>
               <Card.Img src={track.album.images[0].url} />
               <Card.Body>
-               <Card.Title> {track.name} </Card.Title>
+               <Card.Title className = 'mb-2'> {track.name} </Card.Title>
                <Card.Header>
-                Album: {track.album.name}
+              {track.album.name}
                </Card.Header>
-               <Card.Header style={{ color: getTextColor(track.popularity) }}>
+               <Card.Header className = 'mb-5' style={{ color: getTextColor(track.popularity) }}>
                 Popularity: {track.popularity}
                </Card.Header>
-               <Button onClick={() => window.location.href = track.external_urls.spotify}>
+               <Button className = 'mb-5' onClick={() => window.location.href = track.external_urls.spotify}>
                  Click to listen!
                  </Button>
               </Card.Body>
