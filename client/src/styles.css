@@ -3,18 +3,6 @@
     color: 'white'
 }
 
-.card-title {
-    font-family: Roboto; 
-  }
-
-.card-text {
-    font-family: Roboto; 
-}
-
-.progress-label {
-    font-family: Roboto;
-}
-
 .custom-button {
     background-color: #ff6347;
     color: white;

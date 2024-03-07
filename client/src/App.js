@@ -12,7 +12,10 @@ const CLIENT_SECRET = "af59790fe5bb465cb8df276627e1e1dd";
 function App(){
   const [searchInput, setSearchInput] = useState("");
   const[accessToken, setAccessToken] = useState("");
+  const[artistInfo, setArtistInfo] = useState([]);
   const[tracks, setTracks] = useState([]);
+
+  const cardColors = ["#ff5733", "#33ff57", "#5733ff", "#ff33b1", "#33b1ff"];
 
   useEffect(() => {
     // API Access Token
@@ -45,7 +48,7 @@ function App(){
       .then(response => response.json())
       .then(data => { return data.artists.items[0].id })
 
-    console.log("Artist ID is " + artistID);
+    console.log(artistID);
     // Get request with Artist ID grab the top tracks from that Artist
     var returnTracks = await fetch('https://api.spotify.com/v1/artists/' + artistID + '/top-tracks' + '?include_groups=track&market=US', searchParameters)
       .then(response => response.json())
@@ -53,6 +56,13 @@ function App(){
         console.log(data);
         setTracks(data.tracks) 
       });
+
+    var returnArtists = await fetch ('https://api.spotify.com/v1/artists/' + artistID, searchParameters)
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        setArtistInfo(data)
+    });
     
     // Display those tracks to the user 
 
@@ -78,12 +88,31 @@ function App(){
           </Button>
         </InputGroup>
       </Container>
+      <Container className='mb-2'>
+        <Card className="mx-2">
+          <Card.Title> Name: {artistInfo.name} </Card.Title>
+          <Card.Text> Popularity: {artistInfo.popularity} </Card.Text>
+          <Card.Text> Followers: {artistInfo.followers?.total || 0} </Card.Text>
+          <Card.Img src={artistInfo.images?.[2]?.url} style={{ width: '20%' }} className="mx-auto mb-3" />
+            <div className="d-flex flex-wrap justify-content-center">
+              {artistInfo.genres && artistInfo.genres.map((genre, i) => {
+                return (
+              <Card className="mb-2" key={i}  style={{ backgroundColor: cardColors[i % cardColors.length] }}>
+                <Card.Title> #{genre}  </Card.Title>
+              </Card>
+            )})}
+            </div>
+          <Button onClick={() => window.location.href = artistInfo.external_urls?.spotify} style={{ width: '20%' }} className="mx-auto mb-2">
+            Listen to {artistInfo.name} on Spotify
+          </Button>
+        </Card>
+      </Container>
       <Container>
         <Row className="mx-2 row row-cols-5">
           {tracks.map( (track, i) => {
             console.log(track);
             return (
-              <Card>
+              <Card className='mb-2'>
                 <Card.Img src={track.album.images[0].url} />
                 <Card.Body>
                   <Card.Title className = 'mb-2'> {i + 1}. {track.name} </Card.Title>
