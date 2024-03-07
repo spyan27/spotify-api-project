@@ -1,10 +1,30 @@
-.card {
-    background-color: #f0eaff;
+.custom-card {
+    background-color: white;
     color: 'white'
 }
 
 .custom-button {
-    background-color: #ff6347;
+    background-color: #509bf4 !important;
     color: white;
+    border: none;
+}
+
+.white-button {
+    background-color: white;
+    border: none;
+}
+
+.white-button:hover {
+    background-color: #509bf4;
+    border: none;
+}
+
+.pink-button {
+    background-color: #de5843;
+    border: none;
+}
+
+.pink-button:hover {
+    background-color: #e47c65;
     border: none;
 }

@@ -4,7 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, InputGroup, FormControl, Button, Row, Card, ProgressBar, Image} from 'react-bootstrap'
 import { useState, useEffect} from 'react';
 import './styles.css';
-import play from './play.png'
+import play$ from './play$.png'
+import artisfy from './artisfy.png'
 
 const CLIENT_ID = "08e264960fa7499b93f8394f5fa83dc4";
 const CLIENT_SECRET = "af59790fe5bb465cb8df276627e1e1dd";
@@ -14,8 +15,8 @@ function App(){
   const[accessToken, setAccessToken] = useState("");
   const[artistInfo, setArtistInfo] = useState([]);
   const[tracks, setTracks] = useState([]);
-
-  const cardColors = ["#ff5733", "#33ff57", "#5733ff", "#ff33b1", "#33b1ff"];
+  // blue,red,orange,medpink,lime,balletpink,yellow
+  const cardColors = ["#509bf4", "#ffc666", "#f674a2", "#cdf564", "#ffcdd3", "#f6e32d", "#de5843"];
 
   useEffect(() => {
     // API Access Token
@@ -68,42 +69,60 @@ function App(){
 
   }
   console.log(tracks);
+
+  const getColorBasedOnPopularity = (popularity) => {
+    if (popularity >= 0 && popularity < 50) {
+      return 'danger';
+    } else if (popularity >= 50 && popularity < 76) {
+      return 'warning';
+    } else {
+      return 'success';
+    }
+  };
   
   return (
     <div className="App">
       <Container>
-        <InputGroup className="mb-3" size="lg">
-          <FormControl
-            placeholder="Search for artist"
-            type="input"
-            onKeyDown={event => {
-              if (event.key == "Enter") {
-                search();
-              }
-            }}
-            onChange={event => setSearchInput(event.target.value)}
-          />
-          <Button className="custom-button" onClick={search}>
-            Search
-          </Button>
-        </InputGroup>
+        <div className="d-flex flex-wrap justify-content-center">
+          <InputGroup className="mb-3" size="lg">
+          <Image src={artisfy} fluid style={{ width:'15%', height:'auto'}}/>
+            <FormControl
+              placeholder="Search for artist"
+              type="input"
+              onKeyDown={event => {
+               if (event.key == "Enter") {
+                  search();
+                }
+              }}
+              onChange={event => setSearchInput(event.target.value)}
+            />
+           <Button className="custom-button" onClick={search}>
+              Search
+            </Button>
+          </InputGroup>
+        </div>
       </Container>
       <Container className='mb-2'>
         <Card className="mx-2">
-          <Card.Title> Name: {artistInfo.name} </Card.Title>
-          <ProgressBar className = 'mb-3 mx-auto' style={{ width: '20%' }} now ={artistInfo.popularity} label={<span className="progress-label">{`${artistInfo.popularity}`}</span>}/>
-          <Card.Text> Followers: {artistInfo.followers?.total || 0} </Card.Text>
-          <Card.Img src={artistInfo.images?.[2]?.url} style={{ width: '20%' }} className="mx-auto mb-3" />
+          <Card.Title className='mt-3' style={{ fontSize: '2rem' }}> {artistInfo.name} </Card.Title>
+          <Card.Img src={artistInfo.images?.[2]?.url} style={{ width: '20%' }} className="mx-auto mb-4" />
+          <ProgressBar className = 'mb-3 mt-2 mx-auto' 
+          style={{ width: '20%', height: '50%'}} 
+          now ={artistInfo.popularity} 
+          label={<span className="progress-label">{`${artistInfo.popularity}`}</span>}/>
+          <Card.Text style={{ fontSize: '1.2rem' }}> {artistInfo.followers?.total || 0} followers </Card.Text>
             <div className="d-flex flex-wrap justify-content-center">
               {artistInfo.genres && artistInfo.genres.map((genre, i) => {
                 return (
               <Card className="mb-2" key={i}  style={{ backgroundColor: cardColors[i % cardColors.length] }}>
-                <Card.Title> {genre}  </Card.Title>
+                <Card.Text style={{ fontSize: '1.2rem' }}> {genre}  </Card.Text>
               </Card>
             )})}
             </div>
-          <Button onClick={() => window.location.href = artistInfo.external_urls?.spotify} style={{ width: '20%' }} className="mx-auto mb-2">
-            Listen to {artistInfo.name} on Spotify
+          <Button className="mx-auto mt-4 mb-3 pink-button" 
+          onClick={() => window.location.href = artistInfo.external_urls?.spotify} 
+          style={{ width: '20%', fontSize: '1.25rem' }}>
+          Play {artistInfo.name} on Spotify
           </Button>
         </Card>
       </Container>
@@ -112,17 +131,22 @@ function App(){
           {tracks.map( (track, i) => {
             console.log(track);
             return (
-              <Card className='mb-2'>
+              <Card className='mb-2 custom-card'>
                 <Card.Img src={track.album.images[0].url} />
                 <Card.Body>
                   <Card.Title className = 'mb-2'> {i + 1}. {track.name} </Card.Title>
-                  <Card.Text>
+                  <Card.Text className = 'mb-2'>
                   {track.album.name}
                   </Card.Text>
-                  <ProgressBar className = 'mb-3' now ={track.popularity} label={<span className="progress-label">{`${track.popularity}`}</span>}/>
-                  <Button className = 'custom-button' onClick={() => window.location.href = track.external_urls.spotify}>
-                    <Image src={play} fluid style={{ width: '30px', height: 'auto' }}/>
-                  </Button>
+                  <ProgressBar className = 'mb-2'
+                  now ={track.popularity}
+                  label={<span>{`${track.popularity}`}</span>}
+                  variant={getColorBasedOnPopularity(track.popularity)}/>
+                  <div className="d-flex flex-wrap justify-content-center">
+                    <Button className='white-button' onClick={() => window.location.href = track.external_urls.spotify}>
+                     <Image src={play$} fluid style={{ width: '30%', height: 'auto' }}/>
+                    </Button>
+                  </div>
                 </Card.Body>
             </Card>
             )
