@@ -1,8 +1,9 @@
 import logo from "./logo.svg";
 import "./App.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, InputGroup, FormControl, Button, Row, Card} from 'react-bootstrap'
+import { Container, InputGroup, FormControl, Button, Row, Card, ProgressBar} from 'react-bootstrap'
 import { useState, useEffect} from 'react';
+import './styles.css';
 
 const CLIENT_ID = "08e264960fa7499b93f8394f5fa83dc4";
 const CLIENT_SECRET = "af59790fe5bb465cb8df276627e1e1dd";
@@ -26,7 +27,7 @@ function App(){
       .then(result => result.json())
       .then(data => setAccessToken(data.access_token))
   }, [])
-
+  
   // Search
   async function search() {
     console.log('Search for '+ searchInput); // Taylor Swift
@@ -56,10 +57,6 @@ function App(){
 
   }
   console.log(tracks);
-
-  const getTextColor = (popularity) => {
-    return popularity > 90 ? 'green' : 'red';
-  };
   
   return (
     <div className="App">
@@ -86,19 +83,17 @@ function App(){
             console.log(track);
             return (
               <Card>
-              <Card.Img src={track.album.images[0].url} />
-              <Card.Body>
-               <Card.Title className = 'mb-2'> {track.name} </Card.Title>
-               <Card.Header>
-              {track.album.name}
-               </Card.Header>
-               <Card.Header className = 'mb-5' style={{ color: getTextColor(track.popularity) }}>
-                Popularity: {track.popularity}
-               </Card.Header>
-               <Button className = 'mb-5' onClick={() => window.location.href = track.external_urls.spotify}>
-                 Click to listen!
+                <Card.Img src={track.album.images[0].url} />
+                <Card.Body>
+                  <Card.Title className = 'mb-2'> {i + 1}. {track.name} </Card.Title>
+                  <Card.Text>
+                  {track.album.name}
+                  </Card.Text>
+                  <ProgressBar className = 'mb-3' now ={track.popularity} label={`${track.popularity}`} variant="success"/>
+                  <Button className = 'mb-5 background-color:purple' onClick={() => window.location.href = track.external_urls.spotify}>
+                  Play
                  </Button>
-              </Card.Body>
+                </Card.Body>
             </Card>
             )
           })}
