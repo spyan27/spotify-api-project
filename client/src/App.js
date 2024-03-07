@@ -91,14 +91,14 @@ function App(){
       <Container className='mb-2'>
         <Card className="mx-2">
           <Card.Title> Name: {artistInfo.name} </Card.Title>
-          <Card.Text> Popularity: {artistInfo.popularity} </Card.Text>
+          <ProgressBar className = 'mb-3 mx-auto' style={{ width: '20%' }} now ={artistInfo.popularity} label={<span className="progress-label">{`${artistInfo.popularity}`}</span>}/>
           <Card.Text> Followers: {artistInfo.followers?.total || 0} </Card.Text>
           <Card.Img src={artistInfo.images?.[2]?.url} style={{ width: '20%' }} className="mx-auto mb-3" />
             <div className="d-flex flex-wrap justify-content-center">
               {artistInfo.genres && artistInfo.genres.map((genre, i) => {
                 return (
               <Card className="mb-2" key={i}  style={{ backgroundColor: cardColors[i % cardColors.length] }}>
-                <Card.Title> #{genre}  </Card.Title>
+                <Card.Title> {genre}  </Card.Title>
               </Card>
             )})}
             </div>
