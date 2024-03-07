@@ -1,9 +1,10 @@
 import logo from "./logo.svg";
 import "./App.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, InputGroup, FormControl, Button, Row, Card, ProgressBar} from 'react-bootstrap'
+import { Container, InputGroup, FormControl, Button, Row, Card, ProgressBar, Image} from 'react-bootstrap'
 import { useState, useEffect} from 'react';
 import './styles.css';
+import play from './play.png'
 
 const CLIENT_ID = "08e264960fa7499b93f8394f5fa83dc4";
 const CLIENT_SECRET = "af59790fe5bb465cb8df276627e1e1dd";
@@ -72,7 +73,7 @@ function App(){
             }}
             onChange={event => setSearchInput(event.target.value)}
           />
-          <Button onClick={search}>
+          <Button className="custom-button" onClick={search}>
             Search
           </Button>
         </InputGroup>
@@ -89,10 +90,10 @@ function App(){
                   <Card.Text>
                   {track.album.name}
                   </Card.Text>
-                  <ProgressBar className = 'mb-3' now ={track.popularity} label={`${track.popularity}`} variant="success"/>
-                  <Button className = 'mb-5 background-color:purple' onClick={() => window.location.href = track.external_urls.spotify}>
-                  Play
-                 </Button>
+                  <ProgressBar className = 'mb-3' now ={track.popularity} label={<span className="progress-label">{`${track.popularity}`}</span>}/>
+                  <Button className = 'custom-button' onClick={() => window.location.href = track.external_urls.spotify}>
+                    <Image src={play} fluid style={{ width: '30px', height: 'auto' }}/>
+                  </Button>
                 </Card.Body>
             </Card>
             )
