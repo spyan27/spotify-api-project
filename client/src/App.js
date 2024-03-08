@@ -4,8 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, InputGroup, FormControl, Button, Row, Card, ProgressBar, Image} from 'react-bootstrap'
 import { useState, useEffect} from 'react';
 import './styles.css';
-import play$ from './play$.png'
-import artisfy from './artisfy.png'
+import play$ from './play$.png';
+import artisfy from './artisfy.png';
 
 const CLIENT_ID = "08e264960fa7499b93f8394f5fa83dc4";
 const CLIENT_SECRET = "af59790fe5bb465cb8df276627e1e1dd";
